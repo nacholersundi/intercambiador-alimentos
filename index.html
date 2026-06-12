@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intercambiador de Alimentos</title>
+<style>
+  :root {
+    --bg: #0f1923;
+    --surface: #162230;
+    --surface2: #1e2f40;
+    --border: #243447;
+    --accent: #2ecc71;
+    --blue: #3498db;
+    --text: #e8f4f8;
+    --muted: #7a9bb5;
+    --r: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { background: var(--surface); border-bottom: 2px solid var(--accent); padding: 18px 28px; display: flex; align-items: center; gap: 14px; }
+  header h1 { font-size: 19px; font-weight: 700; }
+  header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 18px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; margin-bottom: 18px; }
+  .card h2 { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .search-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+  .sbox { position: relative; flex: 1; min-width: 220px; }
+  .sbox input { width: 100%; padding: 11px 14px 11px 40px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s; }
+  .sbox input:focus { border-color: var(--accent); }
+  .sicon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 14px; }
+  .dd { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; z-index: 100; max-height: 260px; overflow-y: auto; box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+  .ddi { padding: 9px 13px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: background .15s; }
+  .ddi:hover { background: var(--border); }
+  .ddi .mm { font-size: 10px; color: var(--muted); white-space: nowrap; margin-left: auto; }
+  .filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+  .fb { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 12px; cursor: pointer; transition: all .2s; }
+  .fb.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+  .awrap { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 4px 12px; min-width: 150px; }
+  .awrap input { background: transparent; border: none; color: var(--text); font-size: 22px; font-weight: 700; width: 80px; outline: none; }
+  .awrap span { color: var(--muted); font-size: 13px; }
+  .sf { display: flex; align-items: center; gap: 13px; background: var(--surface2); border: 1px solid var(--accent); border-radius: 8px; padding: 13px 16px; margin-top: 14px; }
+  .fi { font-size: 26px; }
+  .fn { font-size: 15px; font-weight: 600; }
+  .fd { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .mp { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 8px; }
+  .pill { padding: 3px 9px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .pill.p { background: rgba(231,76,60,.2); color: #e74c3c; }
+  .pill.c { background: rgba(230,126,34,.2); color: #e67e22; }
+  .pill.f { background: rgba(155,89,182,.2); color: #9b59b6; }
+  .pill.k { background: rgba(52,152,219,.2); color: #3498db; }
+  .tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 20px; text-transform: uppercase; }
+  .tag.prot { background: rgba(231,76,60,.2); color: #e74c3c; }
+  .tag.carb { background: rgba(230,126,34,.2); color: #e67e22; }
+  .tag.fat  { background: rgba(155,89,182,.2); color: #9b59b6; }
+  .tag.mix  { background: rgba(52,152,219,.2); color: #3498db; }
+  .tag.veg  { background: rgba(46,204,113,.2); color: #2ecc71; }
+  .arrow { font-size: 28px; color: var(--accent); text-align: center; margin: 2px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 12px; }
+  .rc { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 15px; transition: all .2s; position: relative; }
+  .rc:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(46,204,113,.1); }
+  .rtop { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
+  .re { font-size: 22px; }
+  .rname { font-size: 13px; font-weight: 600; flex: 1; }
+  .rbig { font-size: 30px; font-weight: 800; color: var(--accent); }
+  .runit { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+
+  /* Score de similitud */
+  .score-bar { height: 4px; border-radius: 2px; background: var(--border); margin: 8px 0 6px; overflow: hidden; }
+  .score-fill { height: 100%; border-radius: 2px; transition: width .3s; }
+  .score-label { font-size: 10px; font-weight: 700; margin-bottom: 4px; }
+
+  /* Comparativa de macros */
+  .macro-compare { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-top: 8px; }
+  .mc-item { background: var(--bg); border-radius: 5px; padding: 5px 6px; text-align: center; }
+  .mc-label { font-size: 9px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
+  .mc-val { font-size: 12px; font-weight: 700; margin-top: 1px; }
+  .mc-diff { font-size: 9px; margin-top: 1px; }
+  .mc-diff.ok { color: var(--accent); }
+  .mc-diff.warn { color: #e67e22; }
+  .mc-diff.bad { color: #e74c3c; }
+
+  .copy-btn { position: absolute; top: 8px; right: 8px; background: var(--border); border: none; border-radius: 5px; padding: 3px 7px; font-size: 10px; color: var(--muted); cursor: pointer; }
+  .copy-btn:hover { background: var(--accent); color: #000; }
+  .empty { text-align: center; padding: 48px; color: var(--muted); }
+  .empty .big { font-size: 48px; margin-bottom: 12px; }
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--accent); color: #000; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; opacity: 0; transform: translateY(10px); transition: all .3s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* Info box */
+  .infobox { background: rgba(46,204,113,.08); border: 1px solid rgba(46,204,113,.2); border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .infobox strong { color: var(--accent); }
+
+  @media (max-width:600px) { .search-row { flex-direction: column; } .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size:26px">🥗</div>
+  <div>
+    <h1>Intercambiador de Alimentos</h1>
+    <p>Equivalencias por perfil de macronutrientes · Coaching de Composición Corporal</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ORIGEN -->
+  <div class="card">
+    <h2>Paso 1 · Alimento origen</h2>
+    <div class="filters" id="fo"></div>
+    <div class="search-row">
+      <div class="sbox" style="flex:2">
+        <span class="sicon">🔍</span>
+        <input type="text" id="si" placeholder="Busca un alimento (ej: arroz, pollo, avena...)" oninput="search()" autocomplete="off">
+        <div class="dd" id="do" style="display:none"></div>
+      </div>
+      <div class="awrap">
+        <input type="number" id="amt" value="100" min="1" max="5000" oninput="calc()">
+        <span>g</span>
+      </div>
+    </div>
+    <div id="so"></div>
+  </div>
+
+  <div class="arrow">⬇</div>
+
+  <!-- DESTINO -->
+  <div class="card">
+    <h2>Paso 2 · Equivalencias por perfil de macros</h2>
+    <div class="infobox">
+      <strong>Cómo funciona:</strong> Los resultados se ordenan por similitud de perfil de macros con el alimento origen. La cantidad mostrada es la que iguala las calorías totales, y la puntuación de compatibilidad indica si el perfil proteína/carbs/grasa es similar. Solo se muestran alimentos con perfil compatible.
+    </div>
+    <div class="filters" id="fd"></div>
+    <div class="sbox" style="max-width:440px;margin-bottom:14px">
+      <span class="sicon">🔍</span>
+      <input type="text" id="sf" placeholder="Filtrar resultados..." oninput="filterRes()" autocomplete="off">
+    </div>
+    <div id="res" class="grid">
+      <div class="empty"><div class="big">🥄</div><p>Selecciona un alimento origen para ver equivalencias</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Copiado</div>
+
+<script>
+const FOODS=[
+  {id:1, name:"Pechuga de pollo (cruda)",      e:"🍗", cat:"prot", unit:"crudo",    p:23.3, c:0,    f:1.2,  k:105},
+  {id:2, name:"Pechuga de pollo (cocida)",     e:"🍗", cat:"prot", unit:"cocido",   p:31.0, c:0,    f:3.6,  k:165},
+  {id:3, name:"Muslo de pollo sin piel (crudo)",e:"🍗",cat:"prot", unit:"crudo",    p:18.5, c:0,    f:5.7,  k:127},
+  {id:4, name:"Pechuga de pavo (cruda)",       e:"🦃", cat:"prot", unit:"crudo",    p:22.5, c:0,    f:1.0,  k:99},
+  {id:5, name:"Ternera magra (cruda)",         e:"🥩", cat:"prot", unit:"crudo",    p:21.5, c:0,    f:4.0,  k:122},
+  {id:6, name:"Lomo de cerdo (crudo)",         e:"🥩", cat:"prot", unit:"crudo",    p:22.0, c:0,    f:3.5,  k:118},
+  {id:7, name:"Salmón (crudo)",                e:"🐟", cat:"prot", unit:"crudo",    p:20.1, c:0,    f:13.4, k:206},
+  {id:8, name:"Atún al natural (escurrido)",   e:"🐟", cat:"prot", unit:"escurrido",p:25.5, c:0,    f:1.0,  k:116},
+  {id:9, name:"Merluza (cruda)",               e:"🐠", cat:"prot", unit:"crudo",    p:17.8, c:0,    f:1.5,  k:82},
+  {id:10,name:"Bacalao desalado (crudo)",      e:"🐠", cat:"prot", unit:"crudo",    p:21.0, c:0,    f:0.9,  k:91},
+  {id:11,name:"Gambas (crudas)",               e:"🦐", cat:"prot", unit:"crudo",    p:20.1, c:0.9,  f:0.5,  k:88},
+  {id:12,name:"Clara de huevo (líquida)",      e:"🥚", cat:"prot", unit:"líquido",  p:10.9, c:0.7,  f:0.17, k:48},
+  {id:13,name:"Huevo entero",                  e:"🥚", cat:"mix",  unit:"tal cual", p:12.6, c:0.7,  f:10.6, k:149},
+  {id:14,name:"Queso fresco batido 0%",        e:"🧀", cat:"prot", unit:"tal cual", p:11.4, c:3.5,  f:0.2,  k:62},
+  {id:15,name:"Queso cottage",                 e:"🧀", cat:"prot", unit:"tal cual", p:11.1, c:3.4,  f:4.3,  k:98},
+  {id:16,name:"Yogur griego 0%",               e:"🥛", cat:"prot", unit:"tal cual", p:10.3, c:4.0,  f:0.4,  k:61},
+  {id:17,name:"Leche entera",                  e:"🥛", cat:"mix",  unit:"tal cual", p:3.2,  c:4.8,  f:3.7,  k:64},
+  {id:18,name:"Leche semidesnatada",           e:"🥛", cat:"mix",  unit:"tal cual", p:3.3,  c:4.8,  f:1.6,  k:47},
+  {id:19,name:"Proteína whey (polvo)",         e:"💪", cat:"prot", unit:"polvo",    p:75,   c:7,    f:4,    k:369},
+  {id:20,name:"Arroz blanco (crudo)",          e:"🍚", cat:"carb", unit:"crudo",    p:6.8,  c:78.9, f:0.6,  k:349},
+  {id:21,name:"Arroz integral (crudo)",        e:"🍚", cat:"carb", unit:"crudo",    p:7.9,  c:76.2, f:2.7,  k:362},
+  {id:22,name:"Pasta (cruda)",                 e:"🍝", cat:"carb", unit:"crudo",    p:12.5, c:71.6, f:1.5,  k:352},
+  {id:23,name:"Patata (cruda)",                e:"🥔", cat:"carb", unit:"crudo",    p:2.0,  c:17.5, f:0.1,  k:79},
+  {id:24,name:"Boniato (crudo)",               e:"🍠", cat:"carb", unit:"crudo",    p:1.6,  c:20.1, f:0.1,  k:90},
+  {id:25,name:"Pan blanco",                    e:"🍞", cat:"carb", unit:"tal cual", p:8.8,  c:52.7, f:2.2,  k:264},
+  {id:26,name:"Pan integral",                  e:"🍞", cat:"carb", unit:"tal cual", p:9.4,  c:46.7, f:2.5,  k:245},
+  {id:27,name:"Avena (copos crudos)",          e:"🌾", cat:"carb", unit:"crudo",    p:13.5, c:58.7, f:7.1,  k:370},
+  {id:28,name:"Quinoa (cruda)",                e:"🌾", cat:"carb", unit:"crudo",    p:14.1, c:64.2, f:6.1,  k:368},
+  {id:29,name:"Lentejas (crudas)",             e:"🫘", cat:"carb", unit:"crudo",    p:26.0, c:52.0, f:1.1,  k:338},
+  {id:30,name:"Garbanzos (crudos)",            e:"🫘", cat:"carb", unit:"crudo",    p:19.3, c:54.3, f:6.0,  k:364},
+  {id:31,name:"Plátano",                       e:"🍌", cat:"carb", unit:"tal cual", p:1.1,  c:22.8, f:0.3,  k:97},
+  {id:32,name:"Manzana",                       e:"🍎", cat:"carb", unit:"tal cual", p:0.3,  c:13.8, f:0.2,  k:57},
+  {id:33,name:"Naranja",                       e:"🍊", cat:"carb", unit:"tal cual", p:0.9,  c:11.8, f:0.1,  k:49},
+  {id:34,name:"Tortitas de arroz",             e:"🫓", cat:"carb", unit:"tal cual", p:7.6,  c:81.4, f:1.7,  k:380},
+  {id:35,name:"Aceite de oliva virgen extra",  e:"🫒", cat:"fat",  unit:"tal cual", p:0,    c:0,    f:99.9, k:900},
+  {id:36,name:"Aguacate",                      e:"🥑", cat:"fat",  unit:"tal cual", p:2.0,  c:1.8,  f:15.3, k:160},
+  {id:37,name:"Nueces",                        e:"🌰", cat:"fat",  unit:"tal cual", p:14.3, c:13.7, f:65.2, k:654},
+  {id:38,name:"Almendras",                     e:"🌰", cat:"fat",  unit:"tal cual", p:21.2, c:21.7, f:49.9, k:607},
+  {id:39,name:"Mantequilla de cacahuete natural",e:"🥜",cat:"fat", unit:"tal cual", p:25.8, c:20.0, f:49.9, k:598},
+  {id:40,name:"Brócoli (crudo)",               e:"🥦", cat:"veg",  unit:"crudo",    p:2.8,  c:6.6,  f:0.4,  k:43},
+  {id:41,name:"Espinacas (crudas)",            e:"🥬", cat:"veg",  unit:"crudo",    p:2.9,  c:3.6,  f:0.4,  k:23},
+  {id:42,name:"Lechuga",                       e:"🥗", cat:"veg",  unit:"crudo",    p:1.4,  c:2.9,  f:0.2,  k:15},
+  {id:43,name:"Tomate",                        e:"🍅", cat:"veg",  unit:"crudo",    p:0.9,  c:3.9,  f:0.2,  k:18},
+  {id:44,name:"Pepino",                        e:"🥒", cat:"veg",  unit:"crudo",    p:0.7,  c:3.6,  f:0.1,  k:16},
+  {id:45,name:"Pimiento rojo",                 e:"🫑", cat:"veg",  unit:"crudo",    p:0.9,  c:6.0,  f:0.3,  k:26},
+  {id:46,name:"Calabacín (crudo)",             e:"🥒", cat:"veg",  unit:"crudo",    p:1.2,  c:3.1,  f:0.3,  k:17},
+  {id:47,name:"Coliflor (cruda)",              e:"🥦", cat:"veg",  unit:"crudo",    p:1.9,  c:5.0,  f:0.3,  k:25},
+  {id:48,name:"Zanahoria (cruda)",             e:"🥕", cat:"veg",  unit:"crudo",    p:0.9,  c:9.6,  f:0.2,  k:41},
+];
+
+const CATS=[{id:"all",l:"Todos"},{id:"prot",l:"Proteína"},{id:"carb",l:"Carbohidratos"},{id:"fat",l:"Grasas"},{id:"mix",l:"Mixtos"},{id:"veg",l:"Verduras"}];
+let origin=null, catO="all", catD="all", filt="";
+
+// Convierte macros a porcentajes calóricos
+function macroProfile(food) {
+  const kP = food.p * 4;
+  const kC = food.c * 4;
+  const kF = food.f * 9;
+  const total = kP + kC + kF || 1;
+  return { p: kP/total, c: kC/total, f: kF/total };
+}
+
+// Similitud coseno entre dos perfiles (0-1)
+function similarity(a, b) {
+  const dot = a.p*b.p + a.c*b.c + a.f*b.f;
+  const magA = Math.sqrt(a.p**2 + a.c**2 + a.f**2);
+  const magB = Math.sqrt(b.p**2 + b.c**2 + b.f**2);
+  if (!magA || !magB) return 0;
+  return dot / (magA * magB);
+}
+
+function catL(c) { return {prot:"Proteína",carb:"Carbohidrato",fat:"Grasa",mix:"Mixto",veg:"Verdura"}[c]||c; }
+
+function scoreColor(s) {
+  if (s >= 0.97) return "#2ecc71";
+  if (s >= 0.90) return "#f1c40f";
+  if (s >= 0.75) return "#e67e22";
+  return "#e74c3c";
+}
+function scoreLabel(s) {
+  if (s >= 0.97) return "Perfil idéntico";
+  if (s >= 0.90) return "Perfil muy similar";
+  if (s >= 0.75) return "Perfil similar";
+  return "Perfil diferente";
+}
+
+function init() {
+  ["fo","fd"].forEach((id,i) => {
+    const side = i===0 ? "o" : "d";
+    document.getElementById(id).innerHTML = CATS.map(c =>
+      `<button class="fb ${c.id==="all"?"active":""}" onclick="setCat('${side}','${c.id}')" id="fc-${side}-${c.id}">${c.l}</button>`
+    ).join("");
+  });
+}
+
+function setCat(side, cat) {
+  if (side==="o") catO=cat; else catD=cat;
+  CATS.forEach(c => {
+    const b = document.getElementById(`fc-${side}-${c.id}`);
+    if (b) b.classList.toggle("active", c.id===cat);
+  });
+  if (side==="d") calc();
+}
+
+function search() {
+  const inp = document.getElementById("si");
+  const dd = document.getElementById("do");
+  const q = inp.value.trim().toLowerCase();
+  if (!q) { dd.style.display="none"; return; }
+  const res = FOODS.filter(f => (catO==="all"||f.cat===catO) && f.name.toLowerCase().includes(q)).slice(0,12);
+  if (!res.length) { dd.style.display="none"; return; }
+  dd.innerHTML = res.map(f =>
+    `<div class="ddi" onclick="pick(${f.id})">
+      <span>${f.e}</span>
+      <span style="flex:1">${f.name}</span>
+      <span class="mm">P:${f.p}g C:${f.c}g G:${f.f}g</span>
+    </div>`
+  ).join("");
+  dd.style.display="block";
+}
+
+function pick(id) {
+  origin = FOODS.find(f => f.id===id);
+  document.getElementById("si").value = origin.name;
+  document.getElementById("do").style.display="none";
+  renderOrigin();
+  calc();
+}
+
+function renderOrigin() {
+  if (!origin) return;
+  const amt = parseFloat(document.getElementById("amt").value)||100;
+  const r = amt/100;
+  const prof = macroProfile(origin);
+  document.getElementById("so").innerHTML = `
+    <div class="sf">
+      <div class="fi">${origin.e}</div>
+      <div>
+        <div class="fn">${origin.name}</div>
+        <div class="fd">${amt}g ${origin.unit} · <span class="tag ${origin.cat}">${catL(origin.cat)}</span></div>
+        <div class="mp">
+          <span class="pill p">🥩 ${(origin.p*r).toFixed(1)}g prot (${(prof.p*100).toFixed(0)}%)</span>
+          <span class="pill c">🍚 ${(origin.c*r).toFixed(1)}g carbs (${(prof.c*100).toFixed(0)}%)</span>
+          <span class="pill f">🫒 ${(origin.f*r).toFixed(1)}g grasa (${(prof.f*100).toFixed(0)}%)</span>
+          <span class="pill k">🔥 ${Math.round(origin.k*r)} kcal</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function filterRes() { filt=document.getElementById("sf").value.trim().toLowerCase(); calc(); }
+
+function calc() {
+  if (!origin) return;
+  const amt = parseFloat(document.getElementById("amt").value)||100;
+  renderOrigin();
+  const originKcal = origin.k * amt / 100;
+  const originProf = macroProfile(origin);
+
+  // Filtra candidatos
+  let cands = FOODS.filter(f =>
+    f.id !== origin.id &&
+    (catD==="all" || f.cat===catD) &&
+    (!filt || f.name.toLowerCase().includes(filt)) &&
+    f.k > 0
+  );
+
+  // Calcula similitud y cantidad equivalente en kcal
+  cands = cands.map(f => {
+    const destProf = macroProfile(f);
+    const sim = similarity(originProf, destProf);
+    const neededG = f.k > 0 ? (originKcal / f.k) * 100 : 0;
+    return { ...f, sim, neededG, destProf };
+  });
+
+  // Solo muestra los con similitud >= 0.75 (perfil similar o mejor)
+  cands = cands.filter(f => f.sim >= 0.75);
+
+  // Ordena por similitud descendente
+  cands.sort((a,b) => b.sim - a.sim);
+
+  if (!cands.length) {
+    document.getElementById("res").innerHTML = `
+      <div class="empty"><div class="big">🔍</div>
+      <p>No hay alimentos con perfil de macros similar en esta categoría.<br>
+      <span style="font-size:12px">Prueba quitando el filtro de categoría o selecciona otro alimento origen.</span></p></div>`;
+    return;
+  }
+
+  document.getElementById("res").innerHTML = cands.map(f => {
+    const r = f.neededG / 100;
+    const or = amt / 100;
+    const col = scoreColor(f.sim);
+    const pct = Math.round(f.sim * 100);
+
+    // Diferencias absolutas en gramos para la cantidad equivalente
+    const dP = (f.p*r - origin.p*or);
+    const dC = (f.c*r - origin.c*or);
+    const dF = (f.f*r - origin.f*or);
+
+    function diffClass(v, thr) { return Math.abs(v)<thr?"ok":Math.abs(v)<thr*3?"warn":"bad"; }
+    function diffStr(v) { return (v>0?"+":"")+v.toFixed(1)+"g"; }
+
+    const cp = `${Math.round(f.neededG)}g de ${f.name} ≈ ${amt}g de ${origin.name} (${Math.round(originKcal)} kcal, ${pct}% compatibilidad de macros)`;
+
+    return `<div class="rc">
+      <button class="copy-btn" onclick="doCopy(event,'${cp.replace(/'/g,"\\'")}')">📋</button>
+      <div class="rtop">
+        <div class="re">${f.e}</div>
+        <div class="rname">${f.name}</div>
+      </div>
+      <div class="rbig">${f.neededG<10?f.neededG.toFixed(1):Math.round(f.neededG)}g</div>
+      <div class="runit">${f.unit} · <span class="tag ${f.cat}">${catL(f.cat)}</span></div>
+      <div class="score-label" style="color:${col}">${scoreLabel(f.sim)} · ${pct}%</div>
+      <div class="score-bar"><div class="score-fill" style="width:${pct}%;background:${col}"></div></div>
+      <div class="macro-compare">
+        <div class="mc-item">
+          <div class="mc-label">Prot</div>
+          <div class="mc-val" style="color:#e74c3c">${(f.p*r).toFixed(1)}g</div>
+          <div class="mc-diff ${diffClass(dP,2)}">${diffStr(dP)}</div>
+        </div>
+        <div class="mc-item">
+          <div class="mc-label">Carbs</div>
+          <div class="mc-val" style="color:#e67e22">${(f.c*r).toFixed(1)}g</div>
+          <div class="mc-diff ${diffClass(dC,3)}">${diffStr(dC)}</div>
+        </div>
+        <div class="mc-item">
+          <div class="mc-label">Grasa</div>
+          <div class="mc-val" style="color:#9b59b6">${(f.f*r).toFixed(1)}g</div>
+          <div class="mc-diff ${diffClass(dF,2)}">${diffStr(dF)}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function doCopy(e, text) {
+  e.stopPropagation();
+  navigator.clipboard.writeText(text).catch(()=>{});
+  const t = document.getElementById("toast");
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 2000);
+}
+
+document.addEventListener("click", e => {
+  if (!e.target.closest(".sbox")) document.querySelectorAll(".dd").forEach(d => d.style.display="none");
+});
+document.getElementById("amt").addEventListener("input", calc);
+init();
+</script>
+</body>
+</html>
