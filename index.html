@@ -161,6 +161,7 @@
       <div class="off-info">
         Busca productos de <strong>Mercadona, Lidl, Carrefour, Dia</strong> y marcas españolas. Base de datos local con <strong>130+ productos reales</strong> con sus macros nutricionales. Busca por nombre, marca o supermercado.
       </div>
+            <div class="filters" id="fo-super"></div>
       <div class="search-row">
         <div class="sbox" style="flex:2">
           <span class="sicon">🔍</span>
@@ -203,11 +204,12 @@
     <!-- Búsqueda OFF destino -->
     <div id="dest-off-panel" style="display:none">
       <div class="off-info">
-        Busca productos de supermercado. Los resultados aparecen debajo — haz clic en un producto para añadirlo a las equivalencias.
+        Busca productos de supermercado. Filtra por categoría o busca por nombre, marca o supermercado.
       </div>
+      <div class="filters" id="fd-super"></div>
       <div class="sbox" style="max-width:500px;margin-bottom:10px">
         <span class="sicon">🔍</span>
-        <input type="text" id="si-off-dest" placeholder="Ej: pollo mercadona, yogur lidl..." oninput="debounceOFFDest()" autocomplete="off">
+        <input type="text" id="si-off-dest" placeholder="Ej: pollo, yogur, arroz, hacendado, lidl..." oninput="debounceOFFDest()" autocomplete="off">
       </div>
       <div id="off-dest-results" style="margin-bottom:14px"></div>
       <div id="off-dest-added" style="margin-bottom:10px"></div>
@@ -285,6 +287,8 @@ const CATS=[{id:"all",l:"Todos"},{id:"prot",l:"Proteína"},{id:"carb",l:"Carbohi
 // ESTADO
 // ═══════════════════════════════
 let origin     = null;   // {name, e, p, c, f, k, unit, source:'local'|'off'}
+let catSuperO  = 'all';  // filtro categoría supermercado origen
+let catSuperD  = 'all';  // filtro categoría supermercado destino
 let originSrc  = 'local';
 let destSrc    = 'local';
 let catO       = 'all';
@@ -324,6 +328,23 @@ function initFilters() {
       `<button class="fb ${c.id==='all'?'active':''}" onclick="setCat('${side}','${c.id}')" id="cat-${side}-${c.id}">${c.l}</button>`
     ).join('');
   });
+  // Filtros para supermercados
+  ['fo-super','fd-super'].forEach((id,i) => {
+    const side = i===0?'o':'d';
+    document.getElementById(id).innerHTML = CATS.map(cat =>
+      `<button class="fb ${cat.id==='all'?'active':''}" onclick="setCatSuper('${side}','${cat.id}')" id="cats-${side}-${cat.id}">${cat.l}</button>`
+    ).join('');
+  });
+}
+
+function setCatSuper(side, cat) {
+  if (side==='o') catSuperO=cat; else catSuperD=cat;
+  CATS.forEach(c => {
+    const b = document.getElementById(`cats-${side}-${c.id}`);
+    if (b) b.classList.toggle('active', c.id===cat);
+  });
+  if (side==='o') debounceOFF();
+  else debounceOFFDest();
 }
 function setCat(side,cat) {
   if (side==='o') catO=cat; else catD=cat;
@@ -342,6 +363,7 @@ function setOriginSrc(src) {
   origin = null;
   document.getElementById('so').innerHTML = '';
   document.getElementById('res').innerHTML = '<div class="empty"><div class="big">🥄</div><p>Selecciona un alimento origen</p></div>';
+  if (src==='off') debounceOFF();
 }
 
 function setDestSrc(src) {
@@ -350,6 +372,7 @@ function setDestSrc(src) {
   document.getElementById('dest-filters').style.display    = src==='local'?'block':'none';
   document.getElementById('dest-off-panel').style.display  = src==='off'?'block':'none';
   destOFFItems = [];
+  if (src==='off') debounceOFFDest();
   calc();
 }
 
@@ -385,8 +408,6 @@ function pickLocal(id) {
 // ═══════════════════════════════
 function debounceOFF() {
   const q = document.getElementById('si-off').value.trim().toLowerCase();
-  const dd = document.getElementById('dd-off');
-  if (q.length < 2) { dd.style.display='none'; document.getElementById('off-status').innerHTML=''; return; }
   searchOFF(q);
 }
 
@@ -395,9 +416,10 @@ function searchOFF(q) {
   document.getElementById('off-status').innerHTML = '';
 
   const results = SUPERMARKET_FOODS.filter(f =>
-    f.name.toLowerCase().includes(q) ||
-    f.brand.toLowerCase().includes(q) ||
-    f.super.toLowerCase().includes(q)
+    (catSuperO==='all' || f.cat===catSuperO) &&
+    (!q || f.name.toLowerCase().includes(q) ||
+           f.brand.toLowerCase().includes(q) ||
+           f.super.toLowerCase().includes(q))
   ).slice(0, 15);
 
   if (!results.length) {
@@ -454,7 +476,6 @@ function pickOFF(idx, side) {
 // ═══════════════════════════════
 function debounceOFFDest() {
   const q = document.getElementById('si-off-dest').value.trim().toLowerCase();
-  if (q.length < 2) { document.getElementById('off-dest-results').innerHTML=''; return; }
   searchOFFDest(q);
 }
 
@@ -463,9 +484,10 @@ function searchOFFDest(q) {
   if (q.length < 2) { resultsEl.innerHTML = ''; return; }
 
   const products = SUPERMARKET_FOODS.filter(f =>
-    f.name.toLowerCase().includes(q) ||
-    f.brand.toLowerCase().includes(q) ||
-    f.super.toLowerCase().includes(q)
+    (catSuperD==='all' || f.cat===catSuperD) &&
+    (!q || f.name.toLowerCase().includes(q) ||
+           f.brand.toLowerCase().includes(q) ||
+           f.super.toLowerCase().includes(q))
   ).slice(0, 10);
 
   window._offProductsDest = products;
