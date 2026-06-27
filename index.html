@@ -392,8 +392,11 @@ function debounceOFF() {
 async function searchOFF(q) {
   const dd = document.getElementById('dd-off');
   try {
-    const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(q)}&page_size=15&fields=product_name,brands,nutriments&json=true`;
-    const res = await fetch(url);
+    const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments`;
+    const url = `https://corsproxy.io/?${encodeURIComponent(offUrl)}`;
+    const fetchOpts = { method: 'GET', headers: { 'Accept': 'application/json' } };
+    const res = await fetch(url, fetchOpts);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const products = (data.products||[]).filter(p => {
       const n = p.nutriments;
@@ -432,7 +435,7 @@ async function searchOFF(q) {
     window._offProducts = products;
     dd.style.display = 'block';
   } catch(err) {
-    document.getElementById('off-status').innerHTML = `<div class="off-loading" style="color:var(--red)">❌ Error conectando con Open Food Facts</div>`;
+    document.getElementById('off-status').innerHTML = `<div class="off-loading" style="color:var(--red)">❌ Error: ${err.message}</div>`;
     dd.style.display = 'none';
   }
 }
@@ -482,8 +485,11 @@ async function searchOFFDest(q) {
   if (q.length < 3) { resultsEl.innerHTML = ''; return; }
   resultsEl.innerHTML = '<div class="off-loading">🔍 Buscando...</div>';
   try {
-    const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(q)}&page_size=10&fields=product_name,brands,nutriments&json=true`;
-    const res = await fetch(url);
+    const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,nutriments`;
+    const url = `https://corsproxy.io/?${encodeURIComponent(offUrl)}`;
+    const fetchOpts = { method: 'GET', headers: { 'Accept': 'application/json' } };
+    const res = await fetch(url, fetchOpts);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const products = (data.products||[]).filter(p => {
       const n = p.nutriments;
@@ -524,7 +530,7 @@ async function searchOFFDest(q) {
         </div>`;
       }).join('') + '</div>';
   } catch(err) {
-    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px">❌ Error conectando con Open Food Facts</div>';
+    resultsEl.innerHTML = `<div style="font-size:12px;color:var(--red);padding:8px">❌ Error: ${err.message}</div>`;
   }
 }
 
