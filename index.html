@@ -391,53 +391,71 @@ function debounceOFF() {
 
 async function searchOFF(q) {
   const dd = document.getElementById('dd-off');
-  try {
-    const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments`;
-    const url = `https://corsproxy.io/?${encodeURIComponent(offUrl)}`;
-    const fetchOpts = { method: 'GET', headers: { 'Accept': 'application/json' } };
-    const res = await fetch(url, fetchOpts);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const products = (data.products||[]).filter(p => {
-      const n = p.nutriments;
-      return p.product_name && n &&
-        n['energy-kcal_100g'] != null &&
-        n['proteins_100g'] != null &&
-        n['carbohydrates_100g'] != null &&
-        n['fat_100g'] != null;
-    });
+  document.getElementById('off-status').innerHTML = '<div class="off-loading">🔍 Buscando en Open Food Facts...</div>';
+  dd.style.display = 'none';
 
-    document.getElementById('off-status').innerHTML = '';
+  // Intentar múltiples proxies CORS en orden
+  const proxies = [
+    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    url => `https://cors-anywhere.herokuapp.com/${url}`,
+  ];
 
-    if (!products.length) {
-      dd.innerHTML = '<div class="ddi" style="color:var(--muted);cursor:default">Sin resultados — prueba otra búsqueda</div>';
-      dd.style.display = 'block'; return;
-    }
+  const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments`;
 
-    dd.innerHTML = products.map((p,i) => {
-      const n = p.nutriments;
-      const kcal = Math.round(n['energy-kcal_100g']||0);
-      const prot = (n['proteins_100g']||0).toFixed(1);
-      const carb = (n['carbohydrates_100g']||0).toFixed(1);
-      const fat  = (n['fat_100g']||0).toFixed(1);
-      const brand = p.brands ? p.brands.split(',')[0].trim() : '';
-      return `<div class="ddi" onclick="pickOFF(${i},'origin')" data-idx="${i}">
-        <span style="font-size:18px">🛒</span>
-        <div class="ddi-info">
-          <div class="ddi-name">${p.product_name}</div>
-          <div class="ddi-brand">${brand||'Sin marca'} · por 100g</div>
-        </div>
-        <span class="ddi-macros">${kcal}kcal P:${prot}g</span>
-      </div>`;
-    }).join('');
+  let data = null;
 
-    // Guardar productos para pickOFF
-    window._offProducts = products;
-    dd.style.display = 'block';
-  } catch(err) {
-    document.getElementById('off-status').innerHTML = `<div class="off-loading" style="color:var(--red)">❌ Error: ${err.message}</div>`;
-    dd.style.display = 'none';
+  for (const makeProxy of proxies) {
+    try {
+      const proxyUrl = makeProxy(offUrl);
+      const res = await fetch(proxyUrl, { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) continue;
+      const raw = await res.json();
+      // allorigins devuelve { contents: "..." }, otros devuelven directo
+      data = raw.contents ? JSON.parse(raw.contents) : raw;
+      if (data && data.products) break;
+    } catch(e) { continue; }
   }
+
+  document.getElementById('off-status').innerHTML = '';
+
+  if (!data || !data.products) {
+    dd.innerHTML = '<div class="ddi" style="color:var(--red);cursor:default">❌ No se pudo conectar con Open Food Facts. Inténtalo de nuevo.</div>';
+    dd.style.display = 'block'; return;
+  }
+
+  const products = data.products.filter(p => {
+    const n = p.nutriments;
+    return p.product_name && n &&
+      n['energy-kcal_100g'] != null &&
+      n['proteins_100g'] != null &&
+      n['carbohydrates_100g'] != null &&
+      n['fat_100g'] != null;
+  });
+
+  if (!products.length) {
+    dd.innerHTML = '<div class="ddi" style="color:var(--muted);cursor:default">Sin resultados — prueba otra búsqueda</div>';
+    dd.style.display = 'block'; return;
+  }
+
+  window._offProducts = products;
+  dd.innerHTML = products.map((p,i) => {
+    const n = p.nutriments;
+    const kcal = Math.round(n['energy-kcal_100g']||0);
+    const prot = (n['proteins_100g']||0).toFixed(1);
+    const carb = (n['carbohydrates_100g']||0).toFixed(1);
+    const fat  = (n['fat_100g']||0).toFixed(1);
+    const brand = p.brands ? p.brands.split(',')[0].trim() : '';
+    return `<div class="ddi" onclick="pickOFF(${i},'origin')" data-idx="${i}">
+      <span style="font-size:18px">🛒</span>
+      <div class="ddi-info">
+        <div class="ddi-name">${p.product_name}</div>
+        <div class="ddi-brand">${brand||'Sin marca'} · por 100g</div>
+      </div>
+      <span class="ddi-macros">${kcal}kcal P:${prot}g C:${carb}g G:${fat}g</span>
+    </div>`;
+  }).join('');
+  dd.style.display = 'block';
 }
 
 function pickOFF(idx, side) {
@@ -484,28 +502,44 @@ async function searchOFFDest(q) {
   const resultsEl = document.getElementById('off-dest-results');
   if (q.length < 3) { resultsEl.innerHTML = ''; return; }
   resultsEl.innerHTML = '<div class="off-loading">🔍 Buscando...</div>';
-  try {
-    const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,nutriments`;
-    const url = `https://corsproxy.io/?${encodeURIComponent(offUrl)}`;
-    const fetchOpts = { method: 'GET', headers: { 'Accept': 'application/json' } };
-    const res = await fetch(url, fetchOpts);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const products = (data.products||[]).filter(p => {
-      const n = p.nutriments;
-      return p.product_name && n &&
-        n['energy-kcal_100g'] != null &&
-        n['proteins_100g'] != null &&
-        n['carbohydrates_100g'] != null &&
-        n['fat_100g'] != null;
-    });
 
-    window._offProductsDest = products;
+  const proxies = [
+    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  ];
+  const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,nutriments`;
 
-    if (!products.length) {
-      resultsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">Sin resultados — prueba otra búsqueda</div>';
-      return;
-    }
+  let data = null;
+  for (const makeProxy of proxies) {
+    try {
+      const res = await fetch(makeProxy(offUrl), { headers: { 'Accept': 'application/json' } });
+      if (!res.ok) continue;
+      const raw = await res.json();
+      data = raw.contents ? JSON.parse(raw.contents) : raw;
+      if (data && data.products) break;
+    } catch(e) { continue; }
+  }
+
+  if (!data || !data.products) {
+    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px">❌ No se pudo conectar. Inténtalo de nuevo.</div>';
+    return;
+  }
+
+  const products = data.products.filter(p => {
+    const n = p.nutriments;
+    return p.product_name && n &&
+      n['energy-kcal_100g'] != null &&
+      n['proteins_100g'] != null &&
+      n['carbohydrates_100g'] != null &&
+      n['fat_100g'] != null;
+  });
+
+  window._offProductsDest = products;
+
+  if (!products.length) {
+    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">Sin resultados — prueba otra búsqueda</div>';
+    return;
+  }
 
     resultsEl.innerHTML = '<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Resultados — haz clic para añadir</div>' +
       '<div style="display:flex;flex-direction:column;gap:6px">' +
@@ -529,9 +563,6 @@ async function searchOFFDest(q) {
           <span style="font-size:18px;color:var(--accent)">＋</span>
         </div>`;
       }).join('') + '</div>';
-  } catch(err) {
-    resultsEl.innerHTML = `<div style="font-size:12px;color:var(--red);padding:8px">❌ Error: ${err.message}</div>`;
-  }
 }
 
 function pickOFFDest(idx) {
