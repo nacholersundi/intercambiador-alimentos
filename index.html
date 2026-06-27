@@ -159,7 +159,7 @@
     <!-- Panel Open Food Facts -->
     <div id="panel-off" style="display:none">
       <div class="off-info">
-        Busca cualquier producto de <strong>Mercadona, Lidl, Carrefour, Dia, Alcampo</strong> y otros supermercados españoles. Usa el nombre del producto o marca. Datos de <strong>Open Food Facts</strong> — base de datos abierta con más de 3 millones de productos.
+        Busca productos de <strong>Mercadona, Lidl, Carrefour, Dia</strong> y marcas españolas. Base de datos local con <strong>130+ productos reales</strong> con sus macros nutricionales. Busca por nombre, marca o supermercado.
       </div>
       <div class="search-row">
         <div class="sbox" style="flex:2">
@@ -277,6 +277,8 @@ const FOODS=[
   {id:48,name:"Zanahoria",e:"🥕",cat:"veg",unit:"crudo",p:0.9,c:9.6,f:0.2,k:41},
 ];
 
+const SUPERMARKET_FOODS = [{"id": "es-1", "name": "Pechuga de pollo filetes Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 23.0, "c": 0.5, "f": 1.5, "k": 108, "source": "supermarket"}, {"id": "es-2", "name": "Pechuga de pavo filetes Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 21.0, "c": 0.5, "f": 1.0, "k": 96, "source": "supermarket"}, {"id": "es-3", "name": "Jamón cocido extra Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.5, "c": 1.0, "f": 3.2, "k": 106, "source": "supermarket"}, {"id": "es-4", "name": "Atún claro en agua Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 24.0, "c": 0.0, "f": 1.0, "k": 104, "source": "supermarket"}, {"id": "es-5", "name": "Atún claro en aceite de oliva Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 26.0, "c": 0.0, "f": 12.0, "k": 214, "source": "supermarket"}, {"id": "es-6", "name": "Sardinas en aceite de oliva Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 20.5, "c": 0.5, "f": 11.0, "k": 188, "source": "supermarket"}, {"id": "es-7", "name": "Mejillones en escabeche Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 12.0, "c": 3.5, "f": 6.0, "k": 116, "source": "supermarket"}, {"id": "es-8", "name": "Queso batido 0% Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.5, "c": 3.8, "f": 0.2, "k": 63, "source": "supermarket"}, {"id": "es-9", "name": "Yogur griego natural 0% Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 8.5, "c": 3.8, "f": 0.3, "k": 52, "source": "supermarket"}, {"id": "es-10", "name": "Yogur griego natural Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 5.0, "c": 3.5, "f": 6.0, "k": 88, "source": "supermarket"}, {"id": "es-11", "name": "Claras de huevo pasteurizadas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 0.7, "f": 0.2, "k": 48, "source": "supermarket"}, {"id": "es-12", "name": "Huevos camperos L Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 12.5, "c": 0.6, "f": 10.5, "k": 147, "source": "supermarket"}, {"id": "es-13", "name": "Requesón Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 9.5, "c": 3.5, "f": 4.5, "k": 93, "source": "supermarket"}, {"id": "es-14", "name": "Queso cottage Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 3.4, "f": 4.0, "k": 95, "source": "supermarket"}, {"id": "es-15", "name": "Fiambre de pavo bajo en grasa Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 19.0, "c": 1.5, "f": 1.5, "k": 95, "source": "supermarket"}, {"id": "es-16", "name": "Solomillo de cerdo Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 21.0, "c": 0.0, "f": 3.5, "k": 116, "source": "supermarket"}, {"id": "es-17", "name": "Bacalao desalado Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 20.5, "c": 0.0, "f": 0.8, "k": 89, "source": "supermarket"}, {"id": "es-18", "name": "Merluza sin piel Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 17.5, "c": 0.0, "f": 1.5, "k": 83, "source": "supermarket"}, {"id": "es-19", "name": "Gambas peladas congeladas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.5, "c": 0.5, "f": 1.5, "k": 90, "source": "supermarket"}, {"id": "es-20", "name": "Proteína whey chocolate Whey Pro", "brand": "Whey Pro", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 74.0, "c": 8.0, "f": 3.5, "k": 360, "source": "supermarket"}, {"id": "es-21", "name": "Proteína whey vainilla Whey Pro", "brand": "Whey Pro", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 74.0, "c": 7.5, "f": 3.5, "k": 358, "source": "supermarket"}, {"id": "es-22", "name": "Leche entera Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.1, "c": 4.7, "f": 3.5, "k": 62, "source": "supermarket"}, {"id": "es-23", "name": "Leche semidesnatada Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.3, "c": 5.0, "f": 1.6, "k": 47, "source": "supermarket"}, {"id": "es-24", "name": "Leche desnatada Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.4, "c": 5.0, "f": 0.1, "k": 35, "source": "supermarket"}, {"id": "es-25", "name": "Bebida de avena Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 1.0, "c": 7.5, "f": 1.5, "k": 46, "source": "supermarket"}, {"id": "es-26", "name": "Bebida de soja sin azúcar Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 3.3, "c": 0.5, "f": 1.8, "k": 33, "source": "supermarket"}, {"id": "es-27", "name": "Arroz redondo Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 6.7, "c": 77.0, "f": 0.7, "k": 348, "source": "supermarket"}, {"id": "es-28", "name": "Arroz basmati Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 78.0, "f": 0.5, "k": 349, "source": "supermarket"}, {"id": "es-29", "name": "Arroz integral Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 74.0, "f": 2.5, "k": 352, "source": "supermarket"}, {"id": "es-30", "name": "Pasta macarrones Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.0, "c": 71.0, "f": 1.5, "k": 348, "source": "supermarket"}, {"id": "es-31", "name": "Pasta espaguetis Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.5, "c": 71.5, "f": 1.5, "k": 350, "source": "supermarket"}, {"id": "es-32", "name": "Pasta integral espaguetis Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.0, "c": 63.0, "f": 2.5, "k": 330, "source": "supermarket"}, {"id": "es-33", "name": "Avena copos finos Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.0, "c": 59.0, "f": 7.0, "k": 365, "source": "supermarket"}, {"id": "es-34", "name": "Tortitas de arroz Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 81.0, "f": 2.0, "k": 374, "source": "supermarket"}, {"id": "es-35", "name": "Pan de molde integral Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 9.0, "c": 44.0, "f": 4.0, "k": 248, "source": "supermarket"}, {"id": "es-36", "name": "Pan de molde blanco Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 8.5, "c": 51.0, "f": 3.5, "k": 268, "source": "supermarket"}, {"id": "es-37", "name": "Lentejas pardinas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 24.0, "c": 52.0, "f": 1.2, "k": 317, "source": "supermarket"}, {"id": "es-38", "name": "Garbanzos cocidos Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 16.0, "f": 2.5, "k": 116, "source": "supermarket"}, {"id": "es-39", "name": "Alubias blancas cocidas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.0, "c": 14.0, "f": 0.5, "k": 89, "source": "supermarket"}, {"id": "es-40", "name": "Quinoa Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 14.0, "c": 64.0, "f": 6.0, "k": 368, "source": "supermarket"}, {"id": "es-41", "name": "Copos de maíz sin azúcar Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 84.0, "f": 1.0, "k": 374, "source": "supermarket"}, {"id": "es-42", "name": "Muesli sin azúcar Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 9.0, "c": 61.0, "f": 8.5, "k": 358, "source": "supermarket"}, {"id": "es-43", "name": "Aceite de oliva virgen extra Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.0, "c": 0.0, "f": 100.0, "k": 900, "source": "supermarket"}, {"id": "es-44", "name": "Nueces peladas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 15.0, "c": 14.0, "f": 65.0, "k": 654, "source": "supermarket"}, {"id": "es-45", "name": "Almendras crudas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 21.0, "c": 22.0, "f": 50.0, "k": 607, "source": "supermarket"}, {"id": "es-46", "name": "Anacardos naturales Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 18.0, "c": 30.0, "f": 44.0, "k": 580, "source": "supermarket"}, {"id": "es-47", "name": "Cacahuetes tostados sin sal Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 26.0, "c": 18.0, "f": 46.0, "k": 583, "source": "supermarket"}, {"id": "es-48", "name": "Crema de cacahuete natural Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 26.0, "c": 20.0, "f": 50.0, "k": 598, "source": "supermarket"}, {"id": "es-49", "name": "Aguacate Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 2.0, "c": 2.0, "f": 15.0, "k": 160, "source": "supermarket"}, {"id": "es-50", "name": "Semillas de chía Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 17.0, "c": 42.0, "f": 31.0, "k": 486, "source": "supermarket"}, {"id": "es-51", "name": "Brócoli congelado Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 3.5, "c": 4.0, "f": 0.4, "k": 33, "source": "supermarket"}, {"id": "es-52", "name": "Espinacas congeladas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 2.5, "c": 1.5, "f": 0.4, "k": 20, "source": "supermarket"}, {"id": "es-53", "name": "Judías verdes congeladas Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 2.0, "c": 4.5, "f": 0.2, "k": 28, "source": "supermarket"}, {"id": "es-54", "name": "Tomate triturado Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 1.5, "c": 5.0, "f": 0.3, "k": 29, "source": "supermarket"}, {"id": "es-55", "name": "Tomate frito Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 1.5, "c": 8.0, "f": 3.5, "k": 70, "source": "supermarket"}, {"id": "es-56", "name": "Champiñones laminados Hacendado", "brand": "Hacendado", "super": "Mercadona", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 2.5, "c": 3.0, "f": 0.3, "k": 25, "source": "supermarket"}, {"id": "es-57", "name": "Pechuga de pollo filetes Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 22.5, "c": 0.5, "f": 2.0, "k": 109, "source": "supermarket"}, {"id": "es-58", "name": "Pechuga de pavo Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 20.5, "c": 0.8, "f": 1.2, "k": 95, "source": "supermarket"}, {"id": "es-59", "name": "Atún en agua Nixe", "brand": "Nixe", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 23.5, "c": 0.5, "f": 1.0, "k": 105, "source": "supermarket"}, {"id": "es-60", "name": "Salmón ahumado Nixe", "brand": "Nixe", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 22.0, "c": 0.0, "f": 14.0, "k": 218, "source": "supermarket"}, {"id": "es-61", "name": "Filete de merluza congelado Nixe", "brand": "Nixe", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 17.0, "c": 0.0, "f": 1.5, "k": 81, "source": "supermarket"}, {"id": "es-62", "name": "Yogur griego natural Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 5.5, "c": 4.0, "f": 5.5, "k": 88, "source": "supermarket"}, {"id": "es-63", "name": "Yogur griego 0% Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 9.0, "c": 4.0, "f": 0.2, "k": 54, "source": "supermarket"}, {"id": "es-64", "name": "Queso fresco batido 0% Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 4.0, "f": 0.2, "k": 62, "source": "supermarket"}, {"id": "es-65", "name": "Claras de huevo Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 0.7, "f": 0.2, "k": 48, "source": "supermarket"}, {"id": "es-66", "name": "Leche entera Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.2, "c": 4.8, "f": 3.7, "k": 63, "source": "supermarket"}, {"id": "es-67", "name": "Jamón cocido extra Dulano", "brand": "Dulano", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.0, "c": 1.0, "f": 3.0, "k": 104, "source": "supermarket"}, {"id": "es-68", "name": "Fiambre pavo Dulano", "brand": "Dulano", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.5, "c": 1.5, "f": 1.5, "k": 93, "source": "supermarket"}, {"id": "es-69", "name": "Requesón Milbona", "brand": "Milbona", "super": "Lidl", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 10.0, "c": 3.5, "f": 4.0, "k": 91, "source": "supermarket"}, {"id": "es-70", "name": "Arroz largo Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.0, "c": 78.0, "f": 0.6, "k": 349, "source": "supermarket"}, {"id": "es-71", "name": "Arroz basmati Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.5, "c": 78.5, "f": 0.5, "k": 350, "source": "supermarket"}, {"id": "es-72", "name": "Pasta espaguetis Combino", "brand": "Combino", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.5, "c": 71.0, "f": 1.5, "k": 349, "source": "supermarket"}, {"id": "es-73", "name": "Pasta integral Combino", "brand": "Combino", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.5, "c": 62.0, "f": 2.8, "k": 329, "source": "supermarket"}, {"id": "es-74", "name": "Avena copos Harvest Basket", "brand": "Harvest Basket", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.5, "c": 58.5, "f": 7.0, "k": 366, "source": "supermarket"}, {"id": "es-75", "name": "Pan integral de molde Lieken", "brand": "Lieken", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 8.5, "c": 43.0, "f": 3.5, "k": 243, "source": "supermarket"}, {"id": "es-76", "name": "Tortitas de arroz Snackrite", "brand": "Snackrite", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.0, "c": 81.5, "f": 2.5, "k": 376, "source": "supermarket"}, {"id": "es-77", "name": "Garbanzos cocidos Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.0, "c": 16.5, "f": 2.0, "k": 114, "source": "supermarket"}, {"id": "es-78", "name": "Lentejas cocidas Simpl", "brand": "Simpl", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 9.0, "c": 17.0, "f": 0.5, "k": 109, "source": "supermarket"}, {"id": "es-79", "name": "Quinoa Harvest Basket", "brand": "Harvest Basket", "super": "Lidl", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 14.5, "c": 64.0, "f": 6.5, "k": 371, "source": "supermarket"}, {"id": "es-80", "name": "Aceite de oliva virgen extra Elosun", "brand": "Elosun", "super": "Lidl", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.0, "c": 0.0, "f": 100.0, "k": 900, "source": "supermarket"}, {"id": "es-81", "name": "Nueces Harvest Basket", "brand": "Harvest Basket", "super": "Lidl", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 14.5, "c": 14.5, "f": 64.5, "k": 650, "source": "supermarket"}, {"id": "es-82", "name": "Almendras crudas Harvest Basket", "brand": "Harvest Basket", "super": "Lidl", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 21.0, "c": 22.5, "f": 49.5, "k": 604, "source": "supermarket"}, {"id": "es-83", "name": "Mantequilla de cacahuete Harvest Basket", "brand": "Harvest Basket", "super": "Lidl", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 25.0, "c": 20.0, "f": 49.5, "k": 595, "source": "supermarket"}, {"id": "es-84", "name": "Pechuga de pollo Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 22.5, "c": 0.5, "f": 2.0, "k": 108, "source": "supermarket"}, {"id": "es-85", "name": "Atún en agua Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 23.0, "c": 0.0, "f": 1.0, "k": 101, "source": "supermarket"}, {"id": "es-86", "name": "Yogur griego 0% Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 9.0, "c": 4.0, "f": 0.2, "k": 54, "source": "supermarket"}, {"id": "es-87", "name": "Arroz redondo Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 6.8, "c": 77.5, "f": 0.6, "k": 347, "source": "supermarket"}, {"id": "es-88", "name": "Pasta espaguetis Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.0, "c": 71.0, "f": 1.5, "k": 347, "source": "supermarket"}, {"id": "es-89", "name": "Avena Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.0, "c": 59.0, "f": 7.0, "k": 365, "source": "supermarket"}, {"id": "es-90", "name": "Aceite oliva virgen extra Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.0, "c": 0.0, "f": 100.0, "k": 900, "source": "supermarket"}, {"id": "es-91", "name": "Almendras Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 21.0, "c": 21.5, "f": 50.0, "k": 606, "source": "supermarket"}, {"id": "es-92", "name": "Jamón cocido extra Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 17.5, "c": 1.5, "f": 3.5, "k": 108, "source": "supermarket"}, {"id": "es-93", "name": "Claras de huevo Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 0.7, "f": 0.2, "k": 48, "source": "supermarket"}, {"id": "es-94", "name": "Queso fresco Carrefour", "brand": "Carrefour", "super": "Carrefour", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 3.5, "f": 0.5, "k": 63, "source": "supermarket"}, {"id": "es-95", "name": "Pechuga de pollo Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 22.0, "c": 0.8, "f": 2.0, "k": 107, "source": "supermarket"}, {"id": "es-96", "name": "Atún en agua Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 23.0, "c": 0.0, "f": 1.0, "k": 101, "source": "supermarket"}, {"id": "es-97", "name": "Yogur griego natural Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 5.0, "c": 3.8, "f": 5.5, "k": 86, "source": "supermarket"}, {"id": "es-98", "name": "Arroz Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 7.0, "c": 77.0, "f": 0.6, "k": 346, "source": "supermarket"}, {"id": "es-99", "name": "Pasta Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.0, "c": 71.0, "f": 1.5, "k": 347, "source": "supermarket"}, {"id": "es-100", "name": "Avena Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.0, "c": 59.0, "f": 7.0, "k": 365, "source": "supermarket"}, {"id": "es-101", "name": "Aceite oliva Dia", "brand": "Dia", "super": "Dia", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.0, "c": 0.0, "f": 100.0, "k": 900, "source": "supermarket"}, {"id": "es-102", "name": "Danone Griego Natural 0%", "brand": "Danone", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 10.3, "c": 4.0, "f": 0.4, "k": 61, "source": "supermarket"}, {"id": "es-103", "name": "Danone Griego Natural", "brand": "Danone", "super": "Varios", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 5.3, "c": 3.5, "f": 5.8, "k": 88, "source": "supermarket"}, {"id": "es-104", "name": "Skyr natural Arla", "brand": "Arla", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 11.0, "c": 4.0, "f": 0.2, "k": 62, "source": "supermarket"}, {"id": "es-105", "name": "Alpro Soja sin azúcar", "brand": "Alpro", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 3.3, "c": 2.5, "f": 1.8, "k": 40, "source": "supermarket"}, {"id": "es-106", "name": "Alpro Avena sin azúcar", "brand": "Alpro", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 1.0, "c": 6.5, "f": 1.5, "k": 44, "source": "supermarket"}, {"id": "es-107", "name": "Quaker Avena", "brand": "Quaker", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.5, "c": 58.7, "f": 7.1, "k": 370, "source": "supermarket"}, {"id": "es-108", "name": "Chovi Hummus clásico", "brand": "Chovi", "super": "Varios", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 8.0, "c": 14.0, "f": 8.0, "k": 164, "source": "supermarket"}, {"id": "es-109", "name": "Philadelphia Original", "brand": "Philadelphia", "super": "Varios", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 5.0, "c": 3.5, "f": 23.0, "k": 244, "source": "supermarket"}, {"id": "es-110", "name": "Fage Total 0%", "brand": "Fage", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 10.3, "c": 4.0, "f": 0.4, "k": 61, "source": "supermarket"}, {"id": "es-111", "name": "El Pozo Pechuga pavo lonchas", "brand": "El Pozo", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 19.0, "c": 1.8, "f": 1.5, "k": 96, "source": "supermarket"}, {"id": "es-112", "name": "El Pozo Jamón cocido", "brand": "El Pozo", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 17.0, "c": 1.5, "f": 3.5, "k": 105, "source": "supermarket"}, {"id": "es-113", "name": "Campofrío Jamón cocido", "brand": "Campofrío", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 17.5, "c": 1.0, "f": 3.0, "k": 101, "source": "supermarket"}, {"id": "es-114", "name": "Campofrío Pechuga pavo", "brand": "Campofrío", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.5, "c": 2.0, "f": 1.5, "k": 95, "source": "supermarket"}, {"id": "es-115", "name": "Oscar Mayer Pechuga pollo", "brand": "Oscar Mayer", "super": "Varios", "e": "🛒", "cat": "prot", "unit": "tal cual (100g)", "p": 18.0, "c": 1.5, "f": 2.0, "k": 94, "source": "supermarket"}, {"id": "es-116", "name": "Pascual Leche entera", "brand": "Pascual", "super": "Varios", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.2, "c": 4.8, "f": 3.8, "k": 64, "source": "supermarket"}, {"id": "es-117", "name": "Puleva Leche semidesnatada", "brand": "Puleva", "super": "Varios", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 3.3, "c": 5.0, "f": 1.5, "k": 46, "source": "supermarket"}, {"id": "es-118", "name": "Asturiana Mantequilla", "brand": "Asturiana", "super": "Varios", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.5, "c": 0.5, "f": 82.0, "k": 743, "source": "supermarket"}, {"id": "es-119", "name": "Carbonell Aceite oliva virgen extra", "brand": "Carbonell", "super": "Varios", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 0.0, "c": 0.0, "f": 100.0, "k": 900, "source": "supermarket"}, {"id": "es-120", "name": "SOS Arroz redondo", "brand": "SOS", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 6.8, "c": 77.8, "f": 0.6, "k": 348, "source": "supermarket"}, {"id": "es-121", "name": "La Pasta de Alberto Espaguetis", "brand": "La Pasta de Alberto", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.5, "c": 71.0, "f": 1.5, "k": 349, "source": "supermarket"}, {"id": "es-122", "name": "Gallo Espaguetis", "brand": "Gallo", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.5, "c": 71.5, "f": 1.5, "k": 350, "source": "supermarket"}, {"id": "es-123", "name": "Gallo Pasta integral", "brand": "Gallo", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 13.5, "c": 62.0, "f": 2.5, "k": 329, "source": "supermarket"}, {"id": "es-124", "name": "Knorr Caldo de pollo", "brand": "Knorr", "super": "Varios", "e": "🛒", "cat": "mix", "unit": "tal cual (100g)", "p": 2.0, "c": 15.0, "f": 3.0, "k": 95, "source": "supermarket"}, {"id": "es-125", "name": "Florette Mezcla de lechugas", "brand": "Florette", "super": "Varios", "e": "🛒", "cat": "veg", "unit": "tal cual (100g)", "p": 1.5, "c": 2.5, "f": 0.3, "k": 19, "source": "supermarket"}, {"id": "es-126", "name": "Hero Mermelada sin azúcar fresa", "brand": "Hero", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 0.5, "c": 27.0, "f": 0.1, "k": 111, "source": "supermarket"}, {"id": "es-127", "name": "Lindt Excellence 85%", "brand": "Lindt", "super": "Varios", "e": "🛒", "cat": "fat", "unit": "tal cual (100g)", "p": 12.0, "c": 24.0, "f": 46.0, "k": 567, "source": "supermarket"}, {"id": "es-128", "name": "Cola Cao original", "brand": "Cola Cao", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 5.0, "c": 77.5, "f": 3.5, "k": 362, "source": "supermarket"}, {"id": "es-129", "name": "Weetabix", "brand": "Weetabix", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 12.0, "c": 68.0, "f": 2.0, "k": 339, "source": "supermarket"}, {"id": "es-130", "name": "Special K Kellogg's", "brand": "Kellogg's", "super": "Varios", "e": "🛒", "cat": "carb", "unit": "tal cual (100g)", "p": 15.0, "c": 72.0, "f": 2.0, "k": 366, "source": "supermarket"}];
+
 const CATS=[{id:"all",l:"Todos"},{id:"prot",l:"Proteína"},{id:"carb",l:"Carbohidratos"},{id:"fat",l:"Grasas"},{id:"mix",l:"Mixtos"},{id:"veg",l:"Verduras"}];
 
 // ═══════════════════════════════
@@ -382,96 +384,55 @@ function pickLocal(id) {
 // OPEN FOOD FACTS — ORIGEN
 // ═══════════════════════════════
 function debounceOFF() {
-  clearTimeout(offTimer);
-  const q = document.getElementById('si-off').value.trim();
-  if (q.length < 3) { document.getElementById('dd-off').style.display='none'; return; }
-  document.getElementById('off-status').innerHTML = '<div class="off-loading">🔍 Buscando en Open Food Facts...</div>';
-  offTimer = setTimeout(() => searchOFF(q), 600);
+  const q = document.getElementById('si-off').value.trim().toLowerCase();
+  const dd = document.getElementById('dd-off');
+  if (q.length < 2) { dd.style.display='none'; document.getElementById('off-status').innerHTML=''; return; }
+  searchOFF(q);
 }
 
-async function searchOFF(q) {
+function searchOFF(q) {
   const dd = document.getElementById('dd-off');
-  document.getElementById('off-status').innerHTML = '<div class="off-loading">🔍 Buscando en Open Food Facts...</div>';
-  dd.style.display = 'none';
-
-  // Intentar múltiples proxies CORS en orden
-  const proxies = [
-    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-    url => `https://cors-anywhere.herokuapp.com/${url}`,
-  ];
-
-  const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments`;
-
-  let data = null;
-
-  for (const makeProxy of proxies) {
-    try {
-      const proxyUrl = makeProxy(offUrl);
-      const res = await fetch(proxyUrl, { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) continue;
-      const raw = await res.json();
-      // allorigins devuelve { contents: "..." }, otros devuelven directo
-      data = raw.contents ? JSON.parse(raw.contents) : raw;
-      if (data && data.products) break;
-    } catch(e) { continue; }
-  }
-
   document.getElementById('off-status').innerHTML = '';
 
-  if (!data || !data.products) {
-    dd.innerHTML = '<div class="ddi" style="color:var(--red);cursor:default">❌ No se pudo conectar con Open Food Facts. Inténtalo de nuevo.</div>';
+  const results = SUPERMARKET_FOODS.filter(f =>
+    f.name.toLowerCase().includes(q) ||
+    f.brand.toLowerCase().includes(q) ||
+    f.super.toLowerCase().includes(q)
+  ).slice(0, 15);
+
+  if (!results.length) {
+    dd.innerHTML = '<div class="ddi" style="color:var(--muted);cursor:default">Sin resultados — prueba con otra marca o producto</div>';
     dd.style.display = 'block'; return;
   }
 
-  const products = data.products.filter(p => {
-    const n = p.nutriments;
-    return p.product_name && n &&
-      n['energy-kcal_100g'] != null &&
-      n['proteins_100g'] != null &&
-      n['carbohydrates_100g'] != null &&
-      n['fat_100g'] != null;
-  });
-
-  if (!products.length) {
-    dd.innerHTML = '<div class="ddi" style="color:var(--muted);cursor:default">Sin resultados — prueba otra búsqueda</div>';
-    dd.style.display = 'block'; return;
-  }
-
-  window._offProducts = products;
-  dd.innerHTML = products.map((p,i) => {
-    const n = p.nutriments;
-    const kcal = Math.round(n['energy-kcal_100g']||0);
-    const prot = (n['proteins_100g']||0).toFixed(1);
-    const carb = (n['carbohydrates_100g']||0).toFixed(1);
-    const fat  = (n['fat_100g']||0).toFixed(1);
-    const brand = p.brands ? p.brands.split(',')[0].trim() : '';
-    return `<div class="ddi" onclick="pickOFF(${i},'origin')" data-idx="${i}">
+  window._offProducts = results;
+  dd.innerHTML = results.map((f,i) => `
+    <div class="ddi" onclick="pickOFF(${i},'origin')">
       <span style="font-size:18px">🛒</span>
       <div class="ddi-info">
-        <div class="ddi-name">${p.product_name}</div>
-        <div class="ddi-brand">${brand||'Sin marca'} · por 100g</div>
+        <div class="ddi-name">${f.name}</div>
+        <div class="ddi-brand">${f.brand} · ${f.super}</div>
       </div>
-      <span class="ddi-macros">${kcal}kcal P:${prot}g C:${carb}g G:${fat}g</span>
-    </div>`;
-  }).join('');
+      <span class="ddi-macros">${f.k}kcal P:${f.p}g C:${f.c}g G:${f.f}g</span>
+    </div>`).join('');
   dd.style.display = 'block';
 }
 
 function pickOFF(idx, side) {
   const p = window._offProducts[idx];
-  const n = p.nutriments;
+  // Los productos ya vienen en formato correcto desde SUPERMARKET_FOODS
   const food = {
-    name: p.product_name,
-    brand: p.brands ? p.brands.split(',')[0].trim() : '',
+    name: p.name || p.product_name,
+    brand: p.brand || (p.brands ? p.brands.split(',')[0].trim() : ''),
+    super: p.super || '',
     e: '🛒',
-    cat: 'mix',
-    unit: 'tal cual (100g)',
-    p: parseFloat((n['proteins_100g']||0).toFixed(1)),
-    c: parseFloat((n['carbohydrates_100g']||0).toFixed(1)),
-    f: parseFloat((n['fat_100g']||0).toFixed(1)),
-    k: Math.round(n['energy-kcal_100g']||0),
-    source: 'off'
+    cat: p.cat || 'mix',
+    unit: p.unit || 'tal cual (100g)',
+    p: p.p != null ? p.p : parseFloat(((p.nutriments||{})['proteins_100g']||0).toFixed(1)),
+    c: p.c != null ? p.c : parseFloat(((p.nutriments||{})['carbohydrates_100g']||0).toFixed(1)),
+    f: p.f != null ? p.f : parseFloat(((p.nutriments||{})['fat_100g']||0).toFixed(1)),
+    k: p.k != null ? p.k : Math.round(((p.nutriments||{})['energy-kcal_100g']||0)),
+    source: 'supermarket'
   };
 
   if (side === 'origin') {
@@ -492,93 +453,59 @@ function pickOFF(idx, side) {
 // OPEN FOOD FACTS — DESTINO
 // ═══════════════════════════════
 function debounceOFFDest() {
-  clearTimeout(offTimerD);
-  const q = document.getElementById('si-off-dest').value.trim();
-  if (q.length < 3) { document.getElementById('dd-off-dest').style.display='none'; return; }
-  offTimerD = setTimeout(() => searchOFFDest(q), 600);
+  const q = document.getElementById('si-off-dest').value.trim().toLowerCase();
+  if (q.length < 2) { document.getElementById('off-dest-results').innerHTML=''; return; }
+  searchOFFDest(q);
 }
 
-async function searchOFFDest(q) {
+function searchOFFDest(q) {
   const resultsEl = document.getElementById('off-dest-results');
-  if (q.length < 3) { resultsEl.innerHTML = ''; return; }
-  resultsEl.innerHTML = '<div class="off-loading">🔍 Buscando...</div>';
+  if (q.length < 2) { resultsEl.innerHTML = ''; return; }
 
-  const proxies = [
-    url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-    url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-  ];
-  const offUrl = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&fields=product_name,brands,nutriments`;
-
-  let data = null;
-  for (const makeProxy of proxies) {
-    try {
-      const res = await fetch(makeProxy(offUrl), { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) continue;
-      const raw = await res.json();
-      data = raw.contents ? JSON.parse(raw.contents) : raw;
-      if (data && data.products) break;
-    } catch(e) { continue; }
-  }
-
-  if (!data || !data.products) {
-    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px">❌ No se pudo conectar. Inténtalo de nuevo.</div>';
-    return;
-  }
-
-  const products = data.products.filter(p => {
-    const n = p.nutriments;
-    return p.product_name && n &&
-      n['energy-kcal_100g'] != null &&
-      n['proteins_100g'] != null &&
-      n['carbohydrates_100g'] != null &&
-      n['fat_100g'] != null;
-  });
+  const products = SUPERMARKET_FOODS.filter(f =>
+    f.name.toLowerCase().includes(q) ||
+    f.brand.toLowerCase().includes(q) ||
+    f.super.toLowerCase().includes(q)
+  ).slice(0, 10);
 
   window._offProductsDest = products;
 
   if (!products.length) {
-    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">Sin resultados — prueba otra búsqueda</div>';
+    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">Sin resultados — prueba otra marca o producto</div>';
     return;
   }
 
     resultsEl.innerHTML = '<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Resultados — haz clic para añadir</div>' +
       '<div style="display:flex;flex-direction:column;gap:6px">' +
-      products.map((p,i) => {
-        const n = p.nutriments;
-        const kcal = Math.round(n['energy-kcal_100g']||0);
-        const prot = (n['proteins_100g']||0).toFixed(1);
-        const carb = (n['carbohydrates_100g']||0).toFixed(1);
-        const fat  = (n['fat_100g']||0).toFixed(1);
-        const brand = p.brands ? p.brands.split(',')[0].trim() : '';
-        return `<div onclick="pickOFFDest(${i})" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+      products.map((p,i) => `
+        <div onclick="pickOFFDest(${i})" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
           <span style="font-size:18px">🛒</span>
           <div style="flex:1;min-width:0">
-            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.product_name}</div>
-            <div style="font-size:10px;color:var(--muted);margin-top:1px">${brand||'Sin marca'}</div>
+            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:1px">${p.brand} · ${p.super}</div>
           </div>
           <div style="font-size:11px;color:var(--muted);white-space:nowrap;text-align:right">
-            <div style="color:var(--accent);font-weight:700">${kcal} kcal</div>
-            <div>P:${prot}g C:${carb}g G:${fat}g</div>
+            <div style="color:var(--accent);font-weight:700">${p.k} kcal</div>
+            <div>P:${p.p}g C:${p.c}g G:${p.f}g</div>
           </div>
           <span style="font-size:18px;color:var(--accent)">＋</span>
-        </div>`;
-      }).join('') + '</div>';
+        </div>`).join('') + '</div>';
 }
 
 function pickOFFDest(idx) {
   const p = window._offProductsDest[idx];
-  const n = p.nutriments;
   const food = {
-    name: p.product_name,
-    brand: p.brands ? p.brands.split(',')[0].trim() : '',
+    name: p.name || p.product_name,
+    brand: p.brand || (p.brands ? p.brands.split(',')[0].trim() : ''),
+    super: p.super || '',
     e: '🛒',
-    cat: 'mix',
-    unit: 'tal cual (100g)',
-    p: parseFloat((n['proteins_100g']||0).toFixed(1)),
-    c: parseFloat((n['carbohydrates_100g']||0).toFixed(1)),
-    f: parseFloat((n['fat_100g']||0).toFixed(1)),
-    k: Math.round(n['energy-kcal_100g']||0),
-    source: 'off'
+    cat: p.cat || 'mix',
+    unit: p.unit || 'tal cual (100g)',
+    p: p.p != null ? p.p : parseFloat(((p.nutriments||{})['proteins_100g']||0).toFixed(1)),
+    c: p.c != null ? p.c : parseFloat(((p.nutriments||{})['carbohydrates_100g']||0).toFixed(1)),
+    f: p.f != null ? p.f : parseFloat(((p.nutriments||{})['fat_100g']||0).toFixed(1)),
+    k: p.k != null ? p.k : Math.round(((p.nutriments||{})['energy-kcal_100g']||0)),
+    source: 'supermarket'
   };
   destOFFItems.push(food);
   renderAddedOFF();
