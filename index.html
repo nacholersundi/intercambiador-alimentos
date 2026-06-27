@@ -392,7 +392,7 @@ function debounceOFF() {
 async function searchOFF(q) {
   const dd = document.getElementById('dd-off');
   try {
-    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&lc=es&cc=es&fields=product_name,brands,nutriments,image_small_url,categories_tags`;
+    const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(q)}&page_size=15&fields=product_name,brands,nutriments&json=true`;
     const res = await fetch(url);
     const data = await res.json();
     const products = (data.products||[]).filter(p => {
@@ -482,7 +482,7 @@ async function searchOFFDest(q) {
   if (q.length < 3) { resultsEl.innerHTML = ''; return; }
   resultsEl.innerHTML = '<div class="off-loading">🔍 Buscando...</div>';
   try {
-    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&lc=es&cc=es&fields=product_name,brands,nutriments`;
+    const url = `https://world.openfoodfacts.org/api/v2/search?search_terms=${encodeURIComponent(q)}&page_size=10&fields=product_name,brands,nutriments&json=true`;
     const res = await fetch(url);
     const data = await res.json();
     const products = (data.products||[]).filter(p => {
