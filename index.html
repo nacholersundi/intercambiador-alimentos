@@ -203,13 +203,14 @@
     <!-- Búsqueda OFF destino -->
     <div id="dest-off-panel" style="display:none">
       <div class="off-info">
-        Busca productos reales de supermercado para comparar con el alimento origen.
+        Busca productos de supermercado. Los resultados aparecen debajo — haz clic en un producto para añadirlo a las equivalencias.
       </div>
-      <div class="sbox" style="max-width:500px;margin-bottom:14px">
+      <div class="sbox" style="max-width:500px;margin-bottom:10px">
         <span class="sicon">🔍</span>
-        <input type="text" id="si-off-dest" placeholder="Busca producto destino..." oninput="debounceOFFDest()" autocomplete="off">
-        <div class="dd" id="dd-off-dest" style="display:none"></div>
+        <input type="text" id="si-off-dest" placeholder="Ej: pollo mercadona, yogur lidl..." oninput="debounceOFFDest()" autocomplete="off">
       </div>
+      <div id="off-dest-results" style="margin-bottom:14px"></div>
+      <div id="off-dest-added" style="margin-bottom:10px"></div>
     </div>
 
     <div id="res" class="grid">
@@ -477,9 +478,11 @@ function debounceOFFDest() {
 }
 
 async function searchOFFDest(q) {
-  const dd = document.getElementById('dd-off-dest');
+  const resultsEl = document.getElementById('off-dest-results');
+  if (q.length < 3) { resultsEl.innerHTML = ''; return; }
+  resultsEl.innerHTML = '<div class="off-loading">🔍 Buscando...</div>';
   try {
-    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=12&lc=es&cc=es&fields=product_name,brands,nutriments`;
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=10&lc=es&cc=es&fields=product_name,brands,nutriments`;
     const res = await fetch(url);
     const data = await res.json();
     const products = (data.products||[]).filter(p => {
@@ -491,26 +494,37 @@ async function searchOFFDest(q) {
         n['fat_100g'] != null;
     });
 
+    window._offProductsDest = products;
+
     if (!products.length) {
-      dd.innerHTML = '<div class="ddi" style="color:var(--muted);cursor:default">Sin resultados</div>';
-      dd.style.display='block'; return;
+      resultsEl.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px">Sin resultados — prueba otra búsqueda</div>';
+      return;
     }
 
-    window._offProductsDest = products;
-    dd.innerHTML = products.map((p,i) => {
-      const n = p.nutriments;
-      const kcal = Math.round(n['energy-kcal_100g']||0);
-      const prot = (n['proteins_100g']||0).toFixed(1);
-      const brand = p.brands ? p.brands.split(',')[0].trim() : '';
-      return `<div class="ddi" onclick="pickOFFDest(${i})">
-        <span style="font-size:18px">🛒</span>
-        <div class="ddi-info"><div class="ddi-name">${p.product_name}</div><div class="ddi-brand">${brand||'Sin marca'}</div></div>
-        <span class="ddi-macros">${kcal}kcal P:${prot}g</span>
-      </div>`;
-    }).join('');
-    dd.style.display = 'block';
+    resultsEl.innerHTML = '<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Resultados — haz clic para añadir</div>' +
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+      products.map((p,i) => {
+        const n = p.nutriments;
+        const kcal = Math.round(n['energy-kcal_100g']||0);
+        const prot = (n['proteins_100g']||0).toFixed(1);
+        const carb = (n['carbohydrates_100g']||0).toFixed(1);
+        const fat  = (n['fat_100g']||0).toFixed(1);
+        const brand = p.brands ? p.brands.split(',')[0].trim() : '';
+        return `<div onclick="pickOFFDest(${i})" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .15s" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:18px">🛒</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.product_name}</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:1px">${brand||'Sin marca'}</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);white-space:nowrap;text-align:right">
+            <div style="color:var(--accent);font-weight:700">${kcal} kcal</div>
+            <div>P:${prot}g C:${carb}g G:${fat}g</div>
+          </div>
+          <span style="font-size:18px;color:var(--accent)">＋</span>
+        </div>`;
+      }).join('') + '</div>';
   } catch(err) {
-    dd.style.display = 'none';
+    resultsEl.innerHTML = '<div style="font-size:12px;color:var(--red);padding:8px">❌ Error conectando con Open Food Facts</div>';
   }
 }
 
@@ -530,8 +544,30 @@ function pickOFFDest(idx) {
     source: 'off'
   };
   destOFFItems.push(food);
+  renderAddedOFF();
+  document.getElementById('off-dest-results').innerHTML = '';
   document.getElementById('si-off-dest').value = '';
-  document.getElementById('dd-off-dest').style.display = 'none';
+  calc();
+}
+
+function renderAddedOFF() {
+  const el = document.getElementById('off-dest-added');
+  if (!destOFFItems.length) { el.innerHTML = ''; return; }
+  el.innerHTML = '<div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Productos añadidos para comparar</div>' +
+    '<div style="display:flex;flex-direction:column;gap:5px">' +
+    destOFFItems.map((f,i) => `
+      <div style="background:var(--surface2);border:1px solid var(--accent);border-radius:7px;padding:8px 12px;display:flex;align-items:center;gap:8px;font-size:12px">
+        <span>🛒</span>
+        <span style="flex:1;font-weight:600">${f.name}${f.brand?' · <span style="color:var(--muted);font-weight:400">'+f.brand+'</span>':''}</span>
+        <span style="color:var(--muted)">${f.k}kcal P:${f.p}g C:${f.c}g G:${f.f}g</span>
+        <button onclick="removeOFFDest(${i})" style="background:transparent;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0 4px">✕</button>
+      </div>`).join('') +
+    '</div>';
+}
+
+function removeOFFDest(idx) {
+  destOFFItems.splice(idx, 1);
+  renderAddedOFF();
   calc();
 }
 
